@@ -31,7 +31,7 @@ public class TMConverter {
         return tmY;
     }
 
-    public Object getExtractData(StringBuilder sb) {
+    public Object getData(StringBuilder sb) {
         JSONObject jsonObject = new JSONObject(sb.toString());
         JSONObject jsonResultData = jsonObject.getJSONObject("result");
         String posX = Double.toString(jsonResultData.getDouble("posX"));
@@ -39,11 +39,42 @@ public class TMConverter {
 
         logger.info("DATA X : {}", posX);
         logger.info("DATA Y : {}", posY);
-
         logger.info("api total : {}", jsonObject);
         logger.info("result : {}", jsonObject.getJSONObject("result"));
         logger.info("final : {}", jsonObject.getJSONObject("result").getLong("posX"));
         return jsonResultData;
+    }
+
+    public StringBuilder getTMJsonData2() throws IOException {
+        final String KAKAO_KEY = "KakaoAK 982d4b9bc2a1feb105e11fb5f5aeec1c";
+        final String OUTPUT_COORD = "WTM";
+        final String opApiUrl = "https://dapi.kakao.com/v2/local/geo/transcoord.json";
+
+        StringBuilder urlBuilder = new StringBuilder(opApiUrl); /*URL*/
+        urlBuilder.append("?");
+        urlBuilder.append("&" + URLEncoder.encode("output_coord", "UTF-8") + "=" + URLEncoder.encode(OUTPUT_COORD, "UTF-8")); /*TM 좌표를 얻어올 posX좌표*/
+        urlBuilder.append("&" + URLEncoder.encode("x", "UTF-8") + "=" + URLEncoder.encode("37.490983", "UTF-8")); /*TM 좌표를 얻어올 posX좌표*/
+        urlBuilder.append("&" + URLEncoder.encode("y", "UTF-8") + "=" + URLEncoder.encode("127.033353", "UTF-8")); /*TM 좌표를 얻어올 posY좌표*/
+
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", KAKAO_KEY);
+
+        BufferedReader rd;
+        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        return sb;
     }
 
     public StringBuilder getTMJsonData() throws IOException {
