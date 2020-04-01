@@ -15,35 +15,27 @@ import java.net.URLEncoder;
 
 public class TMConverter {
     Logger logger = LoggerFactory.getLogger(Location.class);
+    private String tmX;
+    private String tmY;
 
-    private Double tmX;
-    private Double tmY;
-
-    protected TMConverter(Double tmX, Double tmY) {
+    protected TMConverter(String tmX, String tmY) {
         this.tmX = tmX;
         this.tmY = tmY;
     }
 
-    public TMConverter ok(Double tmX, Double tmY) {
-        return new TMConverter(tmX, tmY);
-    }
-
-    public Double getPosX() {
+    public String getPosX() {
         return tmX;
     }
 
-    public Double getPosY() {
+    public String getPosY() {
         return tmY;
     }
 
     public Object getExtractData(StringBuilder sb) {
         JSONObject jsonObject = new JSONObject(sb.toString());
         JSONObject jsonResultData = jsonObject.getJSONObject("result");
-        Double posX = jsonResultData.getDouble("posX");
-        Double posY = jsonResultData.getDouble("posY");
-
-        this.tmX = posX;
-        this.tmY = posY;
+        String posX = Double.toString(jsonResultData.getDouble("posX"));
+        String posY = Double.toString(jsonResultData.getDouble("posY"));
 
         logger.info("DATA X : {}", posX);
         logger.info("DATA Y : {}", posY);
@@ -54,8 +46,8 @@ public class TMConverter {
         return jsonResultData;
     }
 
-    public StringBuilder getTMJsonData(String posX, String posY) throws IOException {
-        final String accessToken = "e60adfd5-1e65-495d-9776-04a70f0e01c2";
+    public StringBuilder getTMJsonData() throws IOException {
+        final String accessToken = "70d78286-368e-439e-9768-fb1169cd3d6c";
         final String src = "EPSG:4326";
         final String dst = "EPSG:5179";
         final String opApiUrl = "https://sgisapi.kostat.go.kr/OpenAPI3/transformation/transcoord.json";
@@ -64,8 +56,8 @@ public class TMConverter {
         urlBuilder.append("?" + URLEncoder.encode("accessToken", "UTF-8") + "=" + accessToken); /*accessToken*/
         urlBuilder.append("&" + URLEncoder.encode("src", "UTF-8") + "=" + URLEncoder.encode(src, "UTF-8")); /*현재 좌표계*/
         urlBuilder.append("&" + URLEncoder.encode("dst", "UTF-8") + "=" + URLEncoder.encode(dst, "UTF-8")); /*바꿀 좌표계*/
-        urlBuilder.append("&" + URLEncoder.encode("posX", "UTF-8") + "=" + URLEncoder.encode(posX, "UTF-8")); /*TM 좌표를 얻어올 posX좌표*/
-        urlBuilder.append("&" + URLEncoder.encode("posY", "UTF-8") + "=" + URLEncoder.encode(posY, "UTF-8")); /*TM 좌표를 얻어올 posY좌표*/
+        urlBuilder.append("&" + URLEncoder.encode("posX", "UTF-8") + "=" + URLEncoder.encode(this.tmX, "UTF-8")); /*TM 좌표를 얻어올 posX좌표*/
+        urlBuilder.append("&" + URLEncoder.encode("posY", "UTF-8") + "=" + URLEncoder.encode(this.tmY, "UTF-8")); /*TM 좌표를 얻어올 posY좌표*/
 
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

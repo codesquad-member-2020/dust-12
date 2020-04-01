@@ -13,12 +13,10 @@ public class TMController {
     @GetMapping("/test")
     public Object test() {
         try {
-            TMConverter tmConverter = new TMConverter(0.0, 0.0);
-            StringBuilder openApiJsonData = tmConverter.getTMJsonData("37.490983", "127.033353");
-            Object myData = tmConverter.getExtractData(openApiJsonData);
-
-            return tmConverter.ok(tmConverter.getPosX(), tmConverter.getPosY());
-            //return myData.toString();
+            TMConverter tmConverter = new TMConverter("37.490983", "127.033353");
+            StringBuilder openApiData = tmConverter.getTMJsonData();
+            Object myData = tmConverter.getExtractData(openApiData);
+            return myData.toString();
         } catch (IOException e) {
             return "123";
         }
