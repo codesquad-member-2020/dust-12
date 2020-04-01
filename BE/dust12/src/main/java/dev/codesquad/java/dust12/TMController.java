@@ -14,10 +14,9 @@ public class TMController {
     public Object test() {
         try {
             TMConverter tmConverter = new TMConverter("37.490983", "127.033353");
-            StringBuilder openApiData = tmConverter.getTMJsonData(); // openApi String 가져오는 클래스 새로 정의하기
-            StringBuilder test = tmConverter.getOriginJson();
+            StringBuilder openApiData = tmConverter.getOriginJson(); // openApi String 가져오는 클래스 새로 정의하기
             Object myData = tmConverter.getData(openApiData);
-            return test.toString();//myData.toString();
+            return openApiData.toString();//myData.toString();
         } catch (IOException e) {
             return e.getMessage();
         }
