@@ -9,6 +9,7 @@ import javax.xml.crypto.dom.DOMCryptoContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -45,8 +46,7 @@ public class TMConverter {
         return jsonResultData;
     }
 
-    public StringBuilder getTMJsonData2() throws IOException {
-        final String KAKAO_KEY = "KakaoAK 982d4b9bc2a1feb105e11fb5f5aeec1c";
+    public String getBuiltUrl() throws UnsupportedEncodingException {
         final String OUTPUT_COORD = "WTM";
         final String opApiUrl = "https://dapi.kakao.com/v2/local/geo/transcoord.json";
 
@@ -55,27 +55,32 @@ public class TMConverter {
         urlBuilder.append("&" + URLEncoder.encode("output_coord", "UTF-8") + "=" + URLEncoder.encode(OUTPUT_COORD, "UTF-8")); /*TM 좌표를 얻어올 posX좌표*/
         urlBuilder.append("&" + URLEncoder.encode("x", "UTF-8") + "=" + URLEncoder.encode("37.490983", "UTF-8")); /*TM 좌표를 얻어올 posX좌표*/
         urlBuilder.append("&" + URLEncoder.encode("y", "UTF-8") + "=" + URLEncoder.encode("127.033353", "UTF-8")); /*TM 좌표를 얻어올 posY좌표*/
+        return urlBuilder.toString();
+    }
 
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", KAKAO_KEY);
+    public StringBuilder getOriginJson() throws IOException {
+        final String KAKAO_KEY = "KakaoAK 982d4b9bc2a1feb105e11fb5f5aeec1c";
 
-        BufferedReader rd;
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
+        //url connection
+        URL url = new URL(getBuiltUrl());
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+        //set header
+        urlConnection.setRequestMethod("GET");
+        urlConnection.setRequestProperty("Authorization", KAKAO_KEY);
+
+        //build String data
+        BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
         StringBuilder sb = new StringBuilder();
         String line;
-        while ((line = rd.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             sb.append(line);
         }
-        rd.close();
-        conn.disconnect();
+        br.close();
+        urlConnection.disconnect();
         return sb;
     }
+
 
     public StringBuilder getTMJsonData() throws IOException {
         final String accessToken = "70d78286-368e-439e-9768-fb1169cd3d6c";
