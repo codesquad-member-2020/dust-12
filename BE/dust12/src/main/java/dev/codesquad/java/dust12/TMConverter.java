@@ -21,16 +21,16 @@ public class TMConverter {
     private String tmX;
     private String tmY;
 
-    protected TMConverter(String tmX, String tmY) {
-        this.tmX = tmX;
-        this.tmY = tmY;
+    protected TMConverter(String wgsX, String wgsY) {
+        this.tmX = wgsX;
+        this.tmY = wgsY;
     }
 
-    public String getPosX() {
+    public String getTmX() {
         return tmX;
     }
 
-    public String getPosY() {
+    public String getTmY() {
         return tmY;
     }
 
@@ -59,14 +59,22 @@ public class TMConverter {
         return urlBuilder.toString();
     }
 
+    public String getBuiltUrl2() {
+        String urlBuilder = KAKAO_COORDINATE_URL + "?"
+                        + OUTPUT_COORD + "&"
+                        + X + this.tmX + "&"
+                        + Y + this.tmY;
+        return urlBuilder;
+    }
+
     public String getOriginJson() throws IOException {
         //url connection
-        URL url = new URL(getBuiltUrl());
+        URL url = new URL(getBuiltUrl2());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
         //set header
         urlConnection.setRequestMethod("GET");
-        urlConnection.setRequestProperty("Authorization", KAKAO_KEY);
+        urlConnection.setRequestProperty(KAKAO_AUTHORIZTION, KAKAO_KEY);
 
         //build String data
         BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));

@@ -3,6 +3,7 @@ package dev.codesquad.java.dust12;
 public class ApiUrl {
     // KAKAO COORDINATE API
     public static final String KAKAO_COORDINATE_URL = "https://dapi.kakao.com/v2/local/geo/transcoord.json";
+    public static final String KAKAO_AUTHORIZTION = "Authorization";
     public static final String KAKAO_KEY = "KakaoAK 982d4b9bc2a1feb105e11fb5f5aeec1c";
 
     // KOREA ECO API
