@@ -1,5 +1,6 @@
 package dev.codesquad.java.dust12;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,18 +34,20 @@ public class TMConverter {
         return tmY;
     }
 
-    public Object getData(StringBuilder sb) {
-        JSONObject jsonObject = new JSONObject(sb.toString());
-        //JSONObject jsonResultData = (JSONObject) jsonObject.get("x");
-        //String posX = Double.toString(jsonResultData.getDouble("x"));
-        //String posY = Double.toString(jsonResultData.getDouble("y"));
+    public String getData(String originJson) {
+        JSONObject jsonObject = new JSONObject(originJson);
+        JSONArray jsonArray = (JSONArray) jsonObject.get(JSON_LIST_NAME);
 
-//        logger.info("DATA X : {}", posX);
-//        logger.info("DATA Y : {}", posY);
+        // 좌표값을 String, Double 어느것으로 할지 결정하기
+        String tmX = Double.toString((Double) jsonArray.getJSONObject(0).get("x"));
+        Double tmY = (Double) jsonArray.getJSONObject(0).get("y");
+
         logger.info("api total : {}", jsonObject);
-        //logger.info("result : {}", jsonObject.getJSONObject("documents"));
-//        logger.info("final : {}", jsonObject.getJSONObject("documents").getLong("x"));
-        return jsonObject;
+        logger.info("result : {}", jsonArray);
+        logger.info("tmX : {}", tmX);
+        logger.info("tmY : {}", tmY);
+
+        return jsonArray.toString();
     }
 
     public String getBuiltUrl() throws UnsupportedEncodingException {
@@ -56,7 +59,7 @@ public class TMConverter {
         return urlBuilder.toString();
     }
 
-    public StringBuilder getOriginJson() throws IOException {
+    public String getOriginJson() throws IOException {
         //url connection
         URL url = new URL(getBuiltUrl());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -74,6 +77,6 @@ public class TMConverter {
         }
         br.close();
         urlConnection.disconnect();
-        return sb;
+        return sb.toString();
     }
 }

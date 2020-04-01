@@ -11,12 +11,12 @@ public class TMController {
     private final Logger logger = LoggerFactory.getLogger(TMController.class);
 
     @GetMapping("/test")
-    public Object test() {
+    public String test() {
         try {
             TMConverter tmConverter = new TMConverter("37.490983", "127.033353");
-            StringBuilder openApiData = tmConverter.getOriginJson(); // openApi String 가져오는 클래스 새로 정의하기
-            Object myData = tmConverter.getData(openApiData);
-            return openApiData.toString();//myData.toString();
+            String openApiData = tmConverter.getOriginJson(); // openApi String 가져오는 클래스 새로 정의하기
+            String myData = tmConverter.getData(openApiData);
+            return myData;
         } catch (IOException e) {
             return e.getMessage();
         }
