@@ -13,9 +13,9 @@ public class TMController {
     @GetMapping("/test")
     public String test() {
         try {
-            TMConverter tmConverter = new TMConverter("37.490983", "127.033353");
-            String openApiData = tmConverter.getOriginJson(); // openApi String 가져오는 클래스 새로 정의하기
-            String myData = tmConverter.getData(openApiData);
+            String openApiData = OpenApiUtils.getCoordinateJson("37.490983", "127.033353");
+            CoordinateConverter coordinateConverter = new CoordinateConverter();
+            String myData = coordinateConverter.getData(openApiData);
             return myData;
         } catch (IOException e) {
             return e.getMessage();
