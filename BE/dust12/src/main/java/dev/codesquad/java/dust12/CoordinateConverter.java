@@ -12,9 +12,9 @@ public class CoordinateConverter {
     private Double tmX;
     private Double tmY;
 
-    protected CoordinateConverter() {
-        this.tmX = null;
-        this.tmY = null;
+    protected CoordinateConverter(Double tmX, Double tmY) {
+        this.tmX = tmX;
+        this.tmY = tmY;
     }
 
     public Double getTmX() {
@@ -25,12 +25,12 @@ public class CoordinateConverter {
         return tmY;
     }
 
-    public String getData(String originJson) {
+    public CoordinateConverter getData(String originJson) {
         JSONObject jsonObject = new JSONObject(originJson);
         JSONArray jsonArray = (JSONArray) jsonObject.get(JSON_DOCUMENTS);
-        this.tmX = (Double) jsonArray.getJSONObject(0).get("x");
-        this.tmY = (Double) jsonArray.getJSONObject(0).get("y");
+        Double tmX = (Double) jsonArray.getJSONObject(0).get("x");
+        Double tmY = (Double) jsonArray.getJSONObject(0).get("y");
         logger.info("arrayResult: {}, tmX: {}, tmY: {}", jsonArray, tmX, tmY);
-        return jsonArray.toString();
+        return new CoordinateConverter(tmX, tmY);
     }
 }

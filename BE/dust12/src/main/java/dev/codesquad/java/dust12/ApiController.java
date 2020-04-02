@@ -19,35 +19,25 @@ public class ApiController {
     private final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
     @GetMapping("/location")
-    public ResponseEntity location(@RequestParam String wgsX, @RequestParam String wgsY) throws IOException {
-        // 127.49816064433354, 37.21265944475513
-        String openApiData2 = OpenApiUtils.getCoordinateJson(wgsX, wgsY);
-        CoordinateConverter coordinateConverter = new CoordinateConverter();
-        coordinateConverter.getData(openApiData2);
-        Double tmX = coordinateConverter.getTmX();
-        Double tmY = coordinateConverter.getTmY();
+    public ResponseEntity location(@RequestParam Double wgsX, @RequestParam Double wgsY) throws IOException {
+        CoordinateConverter converter = converter(wgsX, wgsY);
+        Double tmX = converter.getTmX();
+        Double tmY = converter.getTmY();
 
         // "244148.546388", "412423.75772"
         String openApiData = OpenApiUtils.getLocationJson(tmX, tmY);
         Location location = new Location(null);
         location = location.getData(openApiData);
-        return new ResponseEntity(location, HttpStatus.OK);
+
         // ResponseEntity.ok(location);
+        return new ResponseEntity(location, HttpStatus.OK);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        try {
-            String openApiData = OpenApiUtils.getCoordinateJson("127.49816064433354", "37.21265944475513");
-            CoordinateConverter coordinateConverter = new CoordinateConverter();
-            String myData = coordinateConverter.getData(openApiData);
-            Double x = coordinateConverter.getTmX();
-            Double y = coordinateConverter.getTmY();
-            logger.info("x {} , y {}",x,y);
-            return myData;
-        } catch (IOException e) {
-            return e.getMessage();
-        }
+    private CoordinateConverter converter(Double wgsX, Double wgsY) throws IOException {
+        // 127.49816064433354, 37.21265944475513
+        String openApiData = OpenApiUtils.getCoordinateJson(wgsX, wgsY);
+        CoordinateConverter converter = new CoordinateConverter(null, null);
+        return converter.getData(openApiData);
     }
 
     @GetMapping("/dust")
