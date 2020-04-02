@@ -24,7 +24,7 @@ public class ApiController {
      */
 
     @GetMapping("/location")
-    public ResponseEntity location(@RequestParam Double wgsX, @RequestParam Double wgsY) throws IOException {
+    public ResponseEntity<Location> location(@RequestParam Double wgsX, @RequestParam Double wgsY) throws IOException {
         CoordinateConverter converter = converter(wgsX, wgsY);
         Double tmX = converter.getTmX();
         Double tmY = converter.getTmY();
@@ -56,9 +56,11 @@ public class ApiController {
         return new ResponseEntity(dustList, HttpStatus.OK);
     }
 
-    @GetMapping("/test")
-    public String forecast() throws IOException {
+    @GetMapping("/forecast")
+    public ResponseEntity<Forecast> forecast() throws IOException {
         String openApiData = OpenApiUtils.getForecastJson();
-        return openApiData;
+        Forecast forecast = new Forecast(null, null, null, null, null, null, null);
+        forecast = forecast.getData(openApiData);
+        return new ResponseEntity(forecast, HttpStatus.OK);
     }
 }

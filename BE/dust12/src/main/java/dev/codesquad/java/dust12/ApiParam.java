@@ -20,4 +20,10 @@ public class ApiParam {
     public static final String DUST_MEASURING_TIME = "dataTime";
 
     // FORECAST
+    public static final String INFORM_OVERALL = "informOverall";
+    public static final String IMAGE_URL_1 = "imageUrl1";
+    public static final String IMAGE_URL_2 = "imageUrl2";
+    public static final String IMAGE_URL_3 = "imageUrl3";
+    public static final String INFORM_GRADE = "informGrade";
+    public static final String INFORM_CODE = "informCode";
 }
