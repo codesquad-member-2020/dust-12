@@ -44,10 +44,8 @@ public class ApiController {
     }
 
     @GetMapping("/dust")
-    public ResponseEntity dust() throws IOException {
-        String stationName = "강남구";
+    public ResponseEntity dust(@RequestParam String stationName) throws IOException {
         String openApiData = OpenApiUtils.getDustJson(stationName);
-
         Dust dust = new Dust(null, null,null);
         List<Dust> dustList = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_DATA ; i++) {
