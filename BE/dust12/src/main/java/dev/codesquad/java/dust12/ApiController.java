@@ -17,6 +17,11 @@ import static dev.codesquad.java.dust12.ApiParam.NUMBER_OF_DATA;
 @RestController
 public class ApiController {
     private final Logger logger = LoggerFactory.getLogger(ApiController.class);
+    /*
+    //  converter example
+    //  wgsX = 127.49816064433354 wgsY =37.21265944475513
+    //  tmX = 244148.546388 tmY = 412423.75772
+     */
 
     @GetMapping("/location")
     public ResponseEntity location(@RequestParam Double wgsX, @RequestParam Double wgsY) throws IOException {
@@ -24,7 +29,6 @@ public class ApiController {
         Double tmX = converter.getTmX();
         Double tmY = converter.getTmY();
 
-        // "244148.546388", "412423.75772"
         String openApiData = OpenApiUtils.getLocationJson(tmX, tmY);
         Location location = new Location(null);
         location = location.getData(openApiData);
@@ -34,7 +38,6 @@ public class ApiController {
     }
 
     private CoordinateConverter converter(Double wgsX, Double wgsY) throws IOException {
-        // 127.49816064433354, 37.21265944475513
         String openApiData = OpenApiUtils.getCoordinateJson(wgsX, wgsY);
         CoordinateConverter converter = new CoordinateConverter(null, null);
         return converter.getData(openApiData);
@@ -51,5 +54,11 @@ public class ApiController {
             dustList.add(dust.getData(openApiData, i));
         }
         return new ResponseEntity(dustList, HttpStatus.OK);
+    }
+
+    @GetMapping("/test")
+    public String forecast() throws IOException {
+        String openApiData = OpenApiUtils.getForecastJson();
+        return openApiData;
     }
 }

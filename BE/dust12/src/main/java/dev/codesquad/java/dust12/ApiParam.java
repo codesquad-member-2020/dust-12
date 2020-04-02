@@ -1,5 +1,9 @@
 package dev.codesquad.java.dust12;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class ApiParam {
     // KAKAO COORDINATE API
     public static final String JSON_DOCUMENTS = "documents";
@@ -14,4 +18,6 @@ public class ApiParam {
     public static final String PM10_GRADE = "pm10Grade1h";
     public static final String PM10_VALUE = "pm10Value";
     public static final String DUST_MEASURING_TIME = "dataTime";
+
+    // FORECAST
 }

@@ -30,5 +30,6 @@ public class ApiUrl {
     public static final String VERSION = "ver=1.3";
 
     // FORECAST
-
+    public static final String FORECAST_URL = "/ArpltnInforInqireSvc/getMinuDustFrcstDspth";
+    public static final String SEARCH_DATE = "searchDate=";
 }

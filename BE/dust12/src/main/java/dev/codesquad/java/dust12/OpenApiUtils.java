@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
-import static dev.codesquad.java.dust12.ApiParam.*;
 import static dev.codesquad.java.dust12.ApiUrl.*;
 
 public class OpenApiUtils {
@@ -22,8 +24,8 @@ public class OpenApiUtils {
         return getOriginJson(requestDustUrl(stationName));
     }
 
-    public static String getForecastJson() {
-        return "";
+    public static String getForecastJson() throws IOException {
+        return getOriginJson(requestForecastUrl());
     }
 
     private static String requestCoordinateUrl(Double wgsX, Double wgsY) {
@@ -52,6 +54,18 @@ public class OpenApiUtils {
                 + TM_Y + tmY + "&"
                 + SERVICE_KEY + KECO_KEY;
         return requestUrl;
+    }
+
+    private static String requestForecastUrl() {
+        String requestUrl = KECO_URL + FORECAST_URL + "?"
+                + RETURN_JSON + "&"
+                + SEARCH_DATE + seoulTime() + "&"
+                + SERVICE_KEY + KECO_KEY;
+        return requestUrl;
+    }
+
+    private static String seoulTime() {
+        return ZonedDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     private static String getOriginJson(String inputUrl) throws IOException {
