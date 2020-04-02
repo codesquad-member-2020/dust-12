@@ -5,50 +5,68 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import static dev.codesquad.java.dust12.ApiParam.*;
 
 public class Forecast {
-    Logger logger = LoggerFactory.getLogger(Location.class);
+    Logger logger = LoggerFactory.getLogger(Forecast.class);
 
-    private final String KEY = "fXJ6ry%2FJVib9COG4WZcL35kCAeiVb%2BPJa%2FTswKpwh4NxBNU6MF35DBBtnjc00TVRDY9hb%2BnubRWuIMrrdpFX2w%3D%3D";
-    private final String OPEN_API_URL = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMinuDustFrcstDspth";
+    private String informOverall;
+    private String imageUrl1;
+    private String imageUrl2;
+    private String imageUrl3;
+    private String dataTime;
+    private String informGrade;
+    private String informCode;
 
-    public StringBuilder getForecastJsonData(String searchDate) throws IOException {
-        StringBuilder urlBuilder = new StringBuilder(OPEN_API_URL); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + KEY); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("searchDate", "UTF-8") + "=" + URLEncoder.encode(searchDate, "UTF-8"));
-        urlBuilder.append("&" + URLEncoder.encode("_returnType", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
-
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-        logger.info("Response code: {}", conn.getResponseCode());
-        BufferedReader rd;
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
-        return sb;
+    public Forecast(String informOverall, String imageUrl1, String imageUrl2, String imageUrl3, String dataTime, String informGrade, String informCode) {
+        this.informOverall = informOverall;
+        this.imageUrl1 = imageUrl1;
+        this.imageUrl2 = imageUrl2;
+        this.imageUrl3 = imageUrl3;
+        this.dataTime = dataTime;
+        this.informGrade = informGrade;
+        this.informCode = informCode;
     }
 
-    public String getParserData(StringBuilder sb, int index, String data) {
-        JSONObject jsonObject = new JSONObject(sb.toString());
-        JSONArray jsonArray = (JSONArray) jsonObject.get("list");
-        return jsonArray.getJSONObject(index).getString(data);
+    public String getInformOverall() {
+        return informOverall;
     }
 
+    public String getImageUrl1() {
+        return imageUrl1;
+    }
+
+    public String getImageUrl2() {
+        return imageUrl2;
+    }
+
+    public String getImageUrl3() {
+        return imageUrl3;
+    }
+
+    public String getDataTime() {
+        return dataTime;
+    }
+
+    public String getInformGrade() {
+        return informGrade;
+    }
+
+    public String getInformCode() {
+        return informCode;
+    }
+
+    public Forecast getData(String sb) {
+        JSONObject jsonObject = new JSONObject(sb);
+        JSONArray jsonArray = (JSONArray) jsonObject.get(JSON_LIST);
+
+        String informOverall = (String) jsonArray.getJSONObject(0).get(INFORM_OVERALL);
+        String imageUrl1 = (String) jsonArray.getJSONObject(0).get(IMAGE_URL_1);
+        String imageUrl2 = (String) jsonArray.getJSONObject(0).get(IMAGE_URL_2);
+        String imageUrl3 = (String) jsonArray.getJSONObject(0).get(IMAGE_URL_3);
+        String dataTime = (String) jsonArray.getJSONObject(0).get(DUST_MEASURING_TIME);
+        String informGrade = (String) jsonArray.getJSONObject(0).get(INFORM_GRADE);
+        String informCode = (String) jsonArray.getJSONObject(0).get(INFORM_CODE);
+        return new Forecast(informOverall, imageUrl1, imageUrl2, imageUrl3, dataTime, informGrade, informCode);
+    }
 }

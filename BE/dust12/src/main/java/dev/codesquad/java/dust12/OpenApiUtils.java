@@ -6,24 +6,24 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static dev.codesquad.java.dust12.ApiParam.*;
 import static dev.codesquad.java.dust12.ApiUrl.*;
+import static dev.codesquad.java.dust12.OpenApiUrl.*;
 
 public class OpenApiUtils {
-    public static String getCoordinateJson(String wgsX, String wgsY) throws IOException {
+    public static String getCoordinateJson(Double wgsX, Double wgsY) throws IOException {
         return getOriginJson(requestCoordinateUrl(wgsX, wgsY));
     }
 
-    public static String getLocationJson() {
-        return "";
+    public static String getLocationJson(Double tmX, Double tmY) throws IOException {
+        return getOriginJson(requestLocationUrl(tmX, tmY));
     }
 
     public static String getDustJson(String stationName) throws IOException {
         return getOriginJson(requestDustUrl(stationName));
     }
 
-    public static String getForecastJson() {
-        return "";
+    public static String getForecastJson() throws IOException {
+        return getOriginJson(requestForecastUrl());
     }
 
     private static String getOriginJson(String inputUrl) throws IOException {
@@ -45,24 +45,5 @@ public class OpenApiUtils {
         br.close();
         urlConnection.disconnect();
         return sb.toString();
-    }
-
-    private static String requestCoordinateUrl(String wgsX, String wgsY) {
-        String requestUrl = KAKAO_COORDINATE_URL + "?"
-                + OUTPUT_COORD + "&"
-                + X + wgsX + "&"
-                + Y + wgsY;
-        return requestUrl;
-    }
-
-    private static String requestDustUrl(String stationName) {
-        String requestUrl = KECO_URL + DUST_URL + "?"
-                + DATA_TERM + "&"
-                + NUMBER_OF_ROWS + "&"
-                + RETURN_JSON + "&"
-                + VERSION + "&"
-                + STATION_NAME + stationName + "&"
-                + SERVICE_KEY + KECO_KEY;
-        return requestUrl;
     }
 }
