@@ -25,7 +25,7 @@ public class Location {
         JSONObject jsonObject = new JSONObject(sb);
         JSONArray jsonArray = (JSONArray) jsonObject.get(JSON_LIST);
         String stationName = jsonArray.getJSONObject(0).get(LOCATION_DATA_KEY).toString();
-        logger.info(stationName);
+        logger.info("stationName: {}", stationName);
         return new Location(stationName);
     }
 }

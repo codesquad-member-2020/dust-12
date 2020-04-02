@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -18,11 +19,20 @@ public class ApiController {
     private final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
     @GetMapping("/location")
-    public ResponseEntity location() throws IOException {
-        String openApiData = OpenApiUtils.getLocationJson("244148.546388", "412423.75772");
+    public ResponseEntity location(@RequestParam String wgsX, @RequestParam String wgsY) throws IOException {
+        // 127.49816064433354, 37.21265944475513
+        String openApiData2 = OpenApiUtils.getCoordinateJson(wgsX, wgsY);
+        CoordinateConverter coordinateConverter = new CoordinateConverter();
+        coordinateConverter.getData(openApiData2);
+        Double tmX = coordinateConverter.getTmX();
+        Double tmY = coordinateConverter.getTmY();
+
+        // "244148.546388", "412423.75772"
+        String openApiData = OpenApiUtils.getLocationJson(tmX, tmY);
         Location location = new Location(null);
         location = location.getData(openApiData);
         return new ResponseEntity(location, HttpStatus.OK);
+        // ResponseEntity.ok(location);
     }
 
     @GetMapping("/test")
@@ -41,7 +51,7 @@ public class ApiController {
     }
 
     @GetMapping("/dust")
-    public ResponseEntity dustValue() throws IOException {
+    public ResponseEntity dust() throws IOException {
         String stationName = "강남구";
         String openApiData = OpenApiUtils.getDustJson(stationName);
 

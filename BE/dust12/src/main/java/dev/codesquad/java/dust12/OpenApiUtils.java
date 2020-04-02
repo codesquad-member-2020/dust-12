@@ -14,7 +14,7 @@ public class OpenApiUtils {
         return getOriginJson(requestCoordinateUrl(wgsX, wgsY));
     }
 
-    public static String getLocationJson(String tmX, String tmY) throws IOException {
+    public static String getLocationJson(Double tmX, Double tmY) throws IOException {
         return getOriginJson(requestLocationUrl(tmX, tmY));
     }
 
@@ -45,7 +45,7 @@ public class OpenApiUtils {
         return requestUrl;
     }
 
-    private static String requestLocationUrl(String tmX, String tmY) {
+    private static String requestLocationUrl(Double tmX, Double tmY) {
         String requestUrl = KECO_URL + LOCATION_URL + "?"
                 + RETURN_JSON + "&"
                 + TM_X + tmX + "&"

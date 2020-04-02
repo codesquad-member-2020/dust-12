@@ -28,15 +28,9 @@ public class CoordinateConverter {
     public String getData(String originJson) {
         JSONObject jsonObject = new JSONObject(originJson);
         JSONArray jsonArray = (JSONArray) jsonObject.get(JSON_DOCUMENTS);
-
         this.tmX = (Double) jsonArray.getJSONObject(0).get("x");
         this.tmY = (Double) jsonArray.getJSONObject(0).get("y");
-
-        logger.info("api total : {}", jsonObject);
-        logger.info("result : {}", jsonArray);
-        logger.info("tmX : {}", tmX);
-        logger.info("tmY : {}", tmY);
-
+        logger.info("arrayResult: {}, tmX: {}, tmY: {}", jsonArray, tmX, tmY);
         return jsonArray.toString();
     }
 }
