@@ -5,8 +5,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-
 import static dev.codesquad.java.dust12.ApiParam.*;
 
 public class Dust {

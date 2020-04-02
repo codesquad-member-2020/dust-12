@@ -1,5 +1,7 @@
 package dev.codesquad.java.dust12;
 
+import static dev.codesquad.java.dust12.ApiParam.NUMBER_OF_DATA;
+
 public class ApiParam {
     // KAKAO COORDINATE API
     public static final String OUTPUT_COORD = "output_coord=TM";
@@ -18,6 +20,7 @@ public class ApiParam {
     public static final String STATION_NAME = "stationName=";
     public static final String DATA_TERM = "dataTerm=daily";
     public static final String NUMBER_OF_ROWS = "numOfRows=24";
+    public static final int NUMBER_OF_DATA = 24;
     public static final String RETURN_JSON = "_returnType=json";
     public static final String SERVICE_KEY = "ServiceKey=";
     public static final String VERSION = "ver=1.3";
