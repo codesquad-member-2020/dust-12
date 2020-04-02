@@ -12,6 +12,8 @@ public class DustController {
     public String dustValue() throws IOException {
         String stationName = "강남구";
         String openApiData = OpenApiUtils.getDustJson(stationName);
-        return openApiData;
+        Dust dust = new Dust();
+
+        return dust.getParserData(openApiData);
     }
 }

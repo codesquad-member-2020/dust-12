@@ -11,7 +11,7 @@ import static dev.codesquad.java.dust12.ApiUrl.*;
 
 public class OpenApiUtils {
     public static String getCoordinateJson(String wgsX, String wgsY) throws IOException {
-        return getOriginJson(requestUrl(wgsX, wgsY));
+        return getOriginJson(requestCoordinateUrl(wgsX, wgsY));
     }
 
     public static String getLocationJson() {
@@ -47,7 +47,7 @@ public class OpenApiUtils {
         return sb.toString();
     }
 
-    private static String requestUrl(String wgsX, String wgsY) {
+    private static String requestCoordinateUrl(String wgsX, String wgsY) {
         String requestUrl = KAKAO_COORDINATE_URL + "?"
                 + OUTPUT_COORD + "&"
                 + X + wgsX + "&"
