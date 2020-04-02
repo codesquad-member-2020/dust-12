@@ -18,8 +18,8 @@ public class OpenApiUtils {
         return "";
     }
 
-    public static String getDustJson() {
-        return "";
+    public static String getDustJson(String stationName) throws IOException {
+        return getOriginJson(requestDustUrl(stationName));
     }
 
     public static String getForecastJson() {
@@ -52,6 +52,17 @@ public class OpenApiUtils {
                 + OUTPUT_COORD + "&"
                 + X + wgsX + "&"
                 + Y + wgsY;
+        return requestUrl;
+    }
+
+    private static String requestDustUrl(String stationName) {
+        String requestUrl = KECO_URL + DUST_URL + "?"
+                + DATA_TERM + "&"
+                + NUMBER_OF_ROWS + "&"
+                + RETURN_JSON + "&"
+                + VERSION + "&"
+                + STATION_NAME + stationName + "&"
+                + SERVICE_KEY + KECO_KEY;
         return requestUrl;
     }
 }

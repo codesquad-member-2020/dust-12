@@ -7,6 +7,8 @@ public class ApiUrl {
     public static final String KAKAO_KEY = "KakaoAK 982d4b9bc2a1feb105e11fb5f5aeec1c";
 
     // KOREA ECO API
-    public static final String KECO_URL = "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList";
+    public static final String KECO_URL = "http://openapi.airkorea.or.kr/openapi/services/rest";
+    public static final String STATION_URL = "/MsrstnInfoInqireSvc/getNearbyMsrstnList";
+    public static final String DUST_URL = "/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty";
     public static final String KECO_KEY = "57yLL991deZDKSPyN3LhskktRLww21pZhY84mpit%2FE3OkDPSKH5UJ5MOfnKDp24SOC3zCbISpcRTJnsneWmFYA%3D%3D";
 }
