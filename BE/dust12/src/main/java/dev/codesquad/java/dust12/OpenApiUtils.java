@@ -11,15 +11,15 @@ import static dev.codesquad.java.dust12.ApiUrl.*;
 
 public class OpenApiUtils {
     public static String getCoordinateJson(String wgsX, String wgsY) throws IOException {
-        return getOriginJson(requestUrl(wgsX, wgsY));
+        return getOriginJson(requestCoordinateUrl(wgsX, wgsY));
     }
 
     public static String getLocationJson() {
         return "";
     }
 
-    public static String getDustJson() {
-        return "";
+    public static String getDustJson(String stationName) throws IOException {
+        return getOriginJson(requestDustUrl(stationName));
     }
 
     public static String getForecastJson() {
@@ -47,11 +47,22 @@ public class OpenApiUtils {
         return sb.toString();
     }
 
-    private static String requestUrl(String wgsX, String wgsY) {
+    private static String requestCoordinateUrl(String wgsX, String wgsY) {
         String requestUrl = KAKAO_COORDINATE_URL + "?"
                 + OUTPUT_COORD + "&"
                 + X + wgsX + "&"
                 + Y + wgsY;
+        return requestUrl;
+    }
+
+    private static String requestDustUrl(String stationName) {
+        String requestUrl = KECO_URL + DUST_URL + "?"
+                + DATA_TERM + "&"
+                + NUMBER_OF_ROWS + "&"
+                + RETURN_JSON + "&"
+                + VERSION + "&"
+                + STATION_NAME + stationName + "&"
+                + SERVICE_KEY + KECO_KEY;
         return requestUrl;
     }
 }
