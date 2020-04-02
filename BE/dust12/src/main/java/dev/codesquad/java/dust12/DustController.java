@@ -25,7 +25,7 @@ public class DustController {
         Dust dust = new Dust(null, null,null);
         List<Dust> dustList = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_DATA ; i++) {
-            dustList.add(dust.getDustData(openApiData, i));
+            dustList.add(dust.getData(openApiData, i));
         }
         return new ResponseEntity(dustList, HttpStatus.OK);
     }

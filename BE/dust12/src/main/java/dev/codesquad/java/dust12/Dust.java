@@ -32,7 +32,7 @@ public class Dust {
         return dataTime;
     }
 
-    public Dust getDustData(String sb, int id) {
+    public Dust getData(String sb, int id) {
         JSONObject jsonObject = new JSONObject(sb);
         JSONArray jsonArray = (JSONArray) jsonObject.get(JSON_LIST);
         String dustGrade = (String) jsonArray.getJSONObject(id).get(PM10_GRADE);

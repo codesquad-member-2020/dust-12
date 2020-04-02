@@ -7,23 +7,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import static dev.codesquad.java.dust12.ApiParam.*;
 
 @RestController
 public class LocationController {
 
     @GetMapping("/location")
-    public ResponseEntity<String> getNearByStation() {
-        // @RequestBody String tmX, @RequestBody String tmY
-        final String dataKey = "stationName";
-        final String tempTmX = "244148.546388";
-        final String tempTmY = "412423.75772";
-        try {
-            Location location = new Location(dataKey);
-            StringBuilder openApiJsonData = location.getLocationJsonData(tempTmX, tempTmY);
-            String myData = (String) location.getParserData(openApiJsonData);
-            return new ResponseEntity(location.ok(myData), HttpStatus.OK);
-        } catch (IOException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity location() throws IOException {
+        String openApiData = OpenApiUtils.getLocationJson("244148.546388", "412423.75772");
+        Location location = new Location(null);
+        location = location.getData(openApiData);
+        return new ResponseEntity(location, HttpStatus.OK);
     }
 }

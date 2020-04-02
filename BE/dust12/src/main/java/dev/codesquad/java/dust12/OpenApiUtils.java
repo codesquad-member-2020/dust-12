@@ -14,8 +14,8 @@ public class OpenApiUtils {
         return getOriginJson(requestCoordinateUrl(wgsX, wgsY));
     }
 
-    public static String getLocationJson() {
-        return "";
+    public static String getLocationJson(String tmX, String tmY) throws IOException {
+        return getOriginJson(requestLocationUrl(tmX, tmY));
     }
 
     public static String getDustJson(String stationName) throws IOException {
@@ -24,6 +24,34 @@ public class OpenApiUtils {
 
     public static String getForecastJson() {
         return "";
+    }
+
+    private static String requestCoordinateUrl(String wgsX, String wgsY) {
+        String requestUrl = KAKAO_COORDINATE_URL + "?"
+                + OUTPUT_COORD + "&"
+                + X + wgsX + "&"
+                + Y + wgsY;
+        return requestUrl;
+    }
+
+    private static String requestDustUrl(String stationName) {
+        String requestUrl = KECO_URL + DUST_URL + "?"
+                + DATA_TERM + "&"
+                + NUMBER_OF_ROWS + "&"
+                + RETURN_JSON + "&"
+                + VERSION + "&"
+                + STATION_NAME + stationName + "&"
+                + SERVICE_KEY + KECO_KEY;
+        return requestUrl;
+    }
+
+    private static String requestLocationUrl(String tmX, String tmY) {
+        String requestUrl = KECO_URL + LOCATION_URL + "?"
+                + RETURN_JSON + "&"
+                + TM_X + tmX + "&"
+                + TM_Y + tmY + "&"
+                + SERVICE_KEY + KECO_KEY;
+        return requestUrl;
     }
 
     private static String getOriginJson(String inputUrl) throws IOException {
@@ -45,24 +73,5 @@ public class OpenApiUtils {
         br.close();
         urlConnection.disconnect();
         return sb.toString();
-    }
-
-    private static String requestCoordinateUrl(String wgsX, String wgsY) {
-        String requestUrl = KAKAO_COORDINATE_URL + "?"
-                + OUTPUT_COORD + "&"
-                + X + wgsX + "&"
-                + Y + wgsY;
-        return requestUrl;
-    }
-
-    private static String requestDustUrl(String stationName) {
-        String requestUrl = KECO_URL + DUST_URL + "?"
-                + DATA_TERM + "&"
-                + NUMBER_OF_ROWS + "&"
-                + RETURN_JSON + "&"
-                + VERSION + "&"
-                + STATION_NAME + stationName + "&"
-                + SERVICE_KEY + KECO_KEY;
-        return requestUrl;
     }
 }
