@@ -111,26 +111,57 @@ header a.active {
 }
 
 .dust-graph::after {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 10px;
+  height: 15px;
   background-color: rgba(171,237,216, 0.5);
-  content: "";
+  /* content: ""; */
 }
 
 .dust-graph .graph {
   width: 10%;
-  height: 10px;
-  background-color: #3f87dc;
+  height: 15px;
+  font-size: 11px;
+  line-height: 15px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.dust-graph > .graph-wrap {
+  position: relative;
+  width: 100%;
+  height: 15px;
   margin-bottom: 5px;
 }
 
-.dust-graph .graph:nth-child(even) {
-  width: 50%;
-  background-color: #ffde7d
+.dust-graph .on::after {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left:0;
+  background-color: rgba(171,237,216, 0.5);
+  content: "";
 }
+
+.dust-graph .graph.good {
+  background-color: #3f87dc;
+}
+
+.dust-graph .graph.normal {
+  background-color: #00b8a9;
+}
+
+.dust-graph .graph.bad {
+  background-color: #ffde7d;
+}
+
+.dust-graph .graph.verybad {
+  background-color: #f6416c;
+}
+
 
 .forecast {
   padding-top: 60px;
@@ -150,6 +181,7 @@ header a.active {
 }
 
 .forecast-img .dust-img {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -157,8 +189,13 @@ header a.active {
 }
 
 .forecast-img .dust-img.first-child {
+  display: block;
   position: static;
   visibility: hidden;
+}
+
+.forecast-img .dust-img:nth-child(2) {
+  display: block;
 }
 
 .dust-img img {
@@ -213,12 +250,15 @@ header a.active {
 
 .controller .active-bar {
   position: absolute;
-  width: 30%;
+  width: 0%;
   height: 100%;
   background: #000
 }
 
 .controller .handle-btn {
+  position: absolute;
+  top: -8px;
+  left: 0;
   width: 17px;
   height: 17px;
   border-radius: 50%;

@@ -7,21 +7,21 @@ export function getElements(target) {
 }
 
 export function classAdd(target, className) {
-  target.classList.add(className);
+  getElement(target).classList.add(className);
 }
 
 export function classRemove(target, className) {
-  target.classList.remove(className);
+  getElement(target).classList.remove(className);
 }
 
 export function hasClass(target, className) {
-  return target.classList.contains(className)
+  return getElement(target).classList.contains(className);
 }
 
 export function show(target) {
-  target.style.display = 'block';
+  getElement(target).style.display = 'block';
 }
 
 export function hide(target) {
-  target.style.display = 'none';
+  getElement(target).style.display = 'none';
 }

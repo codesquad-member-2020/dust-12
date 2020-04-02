@@ -1,8 +1,28 @@
-import {onSuccessGeolocation, onErrorGeolocation} from '../server/http/dustState.js';
+import {getLocationState} from '../server/dustState.js';
+import {forecastBtnHandler} from './view/forecastEvent.js';
 
-import {getElement, getElements} from './util/dom.js'
+import {getElement, getElements, show, hide, classRemove, classAdd} from './util/dom.js'
 
 window.addEventListener('DOMContentLoaded', () => {
-  navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+  getLocationState();
+  forecastBtnHandler();
+})
 
+getElement('.header').addEventListener('click', (e) => {
+  const getHash = e.target.getAttribute('href');
+
+  switch (getHash) {
+    case '#dust' :
+      classRemove('.tab-forecast', 'active');
+      classAdd('.tab-dust', 'active');
+      show('.dust');
+      hide('.forecast');
+      break;
+    case '#forecast' :
+      classRemove('.tab-dust', 'active');
+      classAdd('.tab-forecast', 'active');
+      show('.forecast');
+      hide('.dust');
+      break;
+  }
 })
