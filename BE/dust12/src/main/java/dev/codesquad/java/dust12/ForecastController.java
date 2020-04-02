@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @RestController
 public class ForecastController {
@@ -19,7 +24,8 @@ public class ForecastController {
         Forecast forecast = new Forecast();
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        StringBuilder openApiJsonData = forecast.getForecastJsonData("2020-04-01");
+        String searchDate = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        StringBuilder openApiJsonData = forecast.getForecastJsonData(searchDate);
 
         String informGrade = forecast.getParserData(openApiJsonData, 0, "informGrade");
         String informOverall = forecast.getParserData(openApiJsonData, 0, "informOverall");
