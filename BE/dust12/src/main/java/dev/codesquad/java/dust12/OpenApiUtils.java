@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static dev.codesquad.java.dust12.ApiUrl.*;
+import static dev.codesquad.java.dust12.OpenApiUrl.*;
 
 public class OpenApiUtils {
     public static String getCoordinateJson(Double wgsX, Double wgsY) throws IOException {
@@ -26,46 +24,6 @@ public class OpenApiUtils {
 
     public static String getForecastJson() throws IOException {
         return getOriginJson(requestForecastUrl());
-    }
-
-    private static String requestCoordinateUrl(Double wgsX, Double wgsY) {
-        String requestUrl = KAKAO_COORDINATE_URL + "?"
-                + OUTPUT_COORD + "&"
-                + X + wgsX + "&"
-                + Y + wgsY;
-        return requestUrl;
-    }
-
-    private static String requestDustUrl(String stationName) {
-        String requestUrl = KECO_URL + DUST_URL + "?"
-                + DATA_TERM + "&"
-                + NUMBER_OF_ROWS + "&"
-                + RETURN_JSON + "&"
-                + VERSION + "&"
-                + STATION_NAME + stationName + "&"
-                + SERVICE_KEY + KECO_KEY;
-        return requestUrl;
-    }
-
-    private static String requestLocationUrl(Double tmX, Double tmY) {
-        String requestUrl = KECO_URL + LOCATION_URL + "?"
-                + RETURN_JSON + "&"
-                + TM_X + tmX + "&"
-                + TM_Y + tmY + "&"
-                + SERVICE_KEY + KECO_KEY;
-        return requestUrl;
-    }
-
-    private static String requestForecastUrl() {
-        String requestUrl = KECO_URL + FORECAST_URL + "?"
-                + RETURN_JSON + "&"
-                + SEARCH_DATE + seoulTime() + "&"
-                + SERVICE_KEY + KECO_KEY;
-        return requestUrl;
-    }
-
-    private static String seoulTime() {
-        return ZonedDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     private static String getOriginJson(String inputUrl) throws IOException {
