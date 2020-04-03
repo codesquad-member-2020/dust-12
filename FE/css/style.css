@@ -78,6 +78,7 @@ header a.active {
 .dust-state .state-emoji {
   display: block;
   font-size: 100px;
+  padding-bottom: 3vh;
 }
 
 .dust-state .state-msg {
