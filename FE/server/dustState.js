@@ -20,11 +20,11 @@ const requestDustState = async (position) => {
   console.log(position);
   // const station = await fetchJSON(`http://52.7.37.34:8080/location?wgsX=${position.wgsX}&wgsY=${position.wgsY}`);
   // const dustState = await fetchJSON(`http://52.7.37.34:8080/dust?stationName=${station}`);
-  // const station = {"stationName":"화랑로"};
-  // const dustState = await fetchJSON(`http://localhost:8080/templates/mockdata.json`);
-  
-  const station = await fetchJSON(`http://localhost:8080/location?wgsX=${position.wgsX}&wgsY=${position.wgsY}`);
-  const dustState = await fetchJSON(`http://localhost:8080/dust?stationName=${station}`);
+  const station = {"stationName":"화랑로"};
+  const dustState = await fetchJSON(`http://localhost:8080/templates/mockdata.json`);
+
+  // const station = await fetchJSON(`http://localhost:8080/location?wgsX=${position.wgsX}&wgsY=${position.wgsY}`);
+  // const dustState = await fetchJSON(`http://localhost:8080/dust?stationName=${station}`);
 
   drwaDustSection({dustState, station});
   dustEventHandle(dustState);
