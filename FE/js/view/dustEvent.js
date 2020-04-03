@@ -4,7 +4,6 @@ import { STATE } from '../constant/dust.js';
 
 export const dustEventHandle = (dustState) => {
   getElement('.dust-graph').addEventListener('scroll', (e) => {
-    // console.log(e.currentTarget.scrollTop)
     const target = e.currentTarget;
     const scrollValue = target.scrollTop;
     const targetGap = (target.scrollHeight - target.offsetHeight) / 24;
