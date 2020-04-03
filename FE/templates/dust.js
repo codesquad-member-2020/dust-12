@@ -1,7 +1,5 @@
-import { getElement, getElements } from '../js/util/dom.js';
+import { getElement } from '../js/util/dom.js';
 import { STATE } from '../js/constant/dust.js'
-
-//미세먼지 상태 templates 상단
 
 const stateRender = ({dustState, station}) => {
   let graphHTML = '';

@@ -1,15 +1,14 @@
-import {getLocationState} from '../server/dustState.js';
-import {forecastBtnHandler} from './view/forecastEvent.js';
+import {requestDustState} from '../server/dustState.js';
 import {css} from '../css/style.css';
 
-import {getElement, getElements, show, hide, classRemove, classAdd} from './util/dom.js'
+import {getElement, show, hide, classRemove, classAdd} from './util/dom.js'
 
 window.addEventListener('DOMContentLoaded', () => {
-  getLocationState();
-  forecastBtnHandler();
-})
+  requestDustState();
+  getElement('.header').addEventListener('click', (e) => tabHandle(e));
+});
 
-getElement('.header').addEventListener('click', (e) => {
+const tabHandle = (e) => {
   const getHash = e.target.getAttribute('href');
 
   switch (getHash) {
@@ -26,4 +25,4 @@ getElement('.header').addEventListener('click', (e) => {
       hide('.dust');
       break;
   }
-})
+}
